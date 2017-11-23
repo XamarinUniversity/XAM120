@@ -18,7 +18,7 @@ namespace Phoneword.Android
     	/// </summary>
 		public Task<bool> DialAsync(string number)
 		{
-			var context = Forms.Context;
+			var context = Android.App.Application.Context;
     	    if (context != null)
     	    {
                 var intent = new Intent(Intent.ActionCall);
