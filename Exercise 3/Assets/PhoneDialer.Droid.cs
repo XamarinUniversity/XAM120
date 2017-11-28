@@ -1,15 +1,14 @@
-using Android.Content;
 using System.Linq;
 using System.Threading.Tasks;
+using Android.Content;
 using Android.Telephony;
+using Phoneword.Droid;
 using Xamarin.Forms;
-using Phoneword.Android;
-
 using Uri = Android.Net.Uri;
 
 [assembly: Dependency(typeof(PhoneDialer))]
 
-namespace Phoneword.Android
+namespace Phoneword.Droid
 {
     public class PhoneDialer : IDialer
     {
