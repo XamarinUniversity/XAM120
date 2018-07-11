@@ -4,7 +4,6 @@ using Phoneword.UWP;
 using Xamarin.Forms;
 
 [assembly: Dependency(typeof(PhoneDialer))]
-
 namespace Phoneword.UWP
 {
     public class PhoneDialer : IDialer
@@ -13,7 +12,8 @@ namespace Phoneword.UWP
         {
             if (ApiInformation.IsApiContractPresent("Windows.ApplicationModel.Calls.CallsPhoneContract", 1,0))
             {
-               Windows.ApplicationModel.Calls.PhoneCallManager.ShowPhoneCallUI(number, "Phoneword");
+               Windows.ApplicationModel.Calls
+                   .PhoneCallManager.ShowPhoneCallUI(number, "Phoneword");
 
                return Task.FromResult(true);
             }

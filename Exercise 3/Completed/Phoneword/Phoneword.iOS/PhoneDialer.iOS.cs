@@ -5,7 +5,6 @@ using Xamarin.Forms;
 using Phoneword.iOS;
 
 [assembly: Dependency(typeof(PhoneDialer))]
-
 namespace Phoneword.iOS
 {
 	public class PhoneDialer : IDialer

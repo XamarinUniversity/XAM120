@@ -1,9 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
-using Phoneword.UWP;
 using Xamarin.Forms;
-
-[assembly: Dependency(typeof(PhoneDialer))]
 
 namespace Phoneword.UWP
 {
