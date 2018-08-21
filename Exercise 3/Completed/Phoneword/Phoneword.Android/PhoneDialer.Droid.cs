@@ -5,6 +5,8 @@ using Android.Telephony;
 using Xamarin.Forms;
 using Uri = Android.Net.Uri;
 using Phoneword.Droid;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 
 [assembly: Dependency(typeof(PhoneDialer))]
 namespace Phoneword.Droid
@@ -14,22 +16,35 @@ namespace Phoneword.Droid
         /// <summary>
         /// Dial the phone
         /// </summary>
-        public Task<bool> DialAsync(string number)
+        public async Task<bool> DialAsync(string number)
         {
-            var context = Android.App.Application.Context;
-            if (context != null)
+            var permissionToCheck = Permission.Phone;
+            var status = await CrossPermissions.Current.CheckPermissionStatusAsync(permissionToCheck);
+            if (status != PermissionStatus.Granted)
             {
-                var intent = new Intent(Intent.ActionCall);
-                intent.SetData(Uri.Parse("tel:" + number));
+                var results = await CrossPermissions.Current.RequestPermissionsAsync(permissionToCheck);
+                //Best practice to always check that the key exists
+                if (results.ContainsKey(permissionToCheck))
+                    status = results[permissionToCheck];
+            }
 
-                if (IsIntentAvailable(context, intent))
+            if (status == PermissionStatus.Granted)
+            {
+                var context = Android.App.Application.Context;
+                if (context != null)
                 {
-                    context.StartActivity(intent);
-                    return Task.FromResult(true);
+                    var intent = new Intent(Intent.ActionCall);
+                    intent.SetData(Uri.Parse("tel:" + number));
+
+                    if (IsIntentAvailable(context, intent))
+                    {
+                        context.StartActivity(intent);
+                        return await Task.FromResult(true);
+                    }
                 }
             }
 
-            return Task.FromResult(false);
+            return await Task.FromResult(false);
         }
 
         /// <summary>
