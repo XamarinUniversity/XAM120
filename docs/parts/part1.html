@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 1: Creating your first Xamarin.Forms application</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>XAM120 Intro to Xamarin.Forms</header>
+
+    <section id="main">
+        <h2>Exercise 1: Creating your first Xamarin.Forms application</h2>
+<p>The primary goal of this exercise is to create a new Xamarin.Forms application using the project templates in Visual Studio on macOS or Windows. We will then walk through the project and explore all the parts. Our secondary goal is to explore how to share code between platform-specific projects. </p>
+<blockquote class="info-quote">To complete the exercise, you will need <a href="https://www.visualstudio.com/" target="_blank">Visual Studio for Windows or macOS</a> with the <a href="https://visualstudio.microsoft.com/xamarin/" target="_blank">Xamarin development tools</a> installed. You will also need either an emulator/simulator or a device to run the exercise on. Please see the <a href="https://docs.microsoft.com/xamarin/cross-platform/get-started/installation/" target="_blank">setup page</a> if you need help installing the Xamarin development environment.
+</blockquote>
+
+<hr>
+<h2>Create a new project</h2>
+<ide name="vs">
+<p>Open Visual Studio and create a <strong>New Solution</strong>. This will open the New Project wizard in Visual Studio which has a few screens you need to fill in.</p>
+<ol>
+<li>In the <strong>New Project</strong> wizard, select <strong>Visual C#</strong> &gt; <strong>Cross-Platform</strong> &gt; <strong>Mobile App (Xamarin.Forms)</strong>.</li>
+<li>Name the project <strong>FirstApp</strong> and click <strong>OK</strong> to continue.</li>
+</ol>
+<figure class="figure">
+<img src="./images/vs-new-project-template.png" alt="Selecting the Mobile App (Xamarin.Forms) cross-platform template in Visual Studio" style="max-height: 350px;" title="Select the Cross-Platform App template." />
+<figcaption class="figure-caption">Select the Cross-Platform App template.</figcaption>
+</figure>
+<ol start="3">
+<li>Select the <strong>Blank App</strong> to create an app with a XAML-based UI.</li>
+<li>Select <strong>.NET Standard</strong> from the <strong>Code Sharing Strategy</strong> choice to put shared code in a compiled library.</li>
+<li>Click <strong>OK</strong> to create your solution.</li>
+</ol>
+<figure class="figure">
+<img src="./images/vs-blank-app-sharing.png" alt="Configuring the cross-platform app template to use the Blank App template using .NET Standard in Visual Studio" style="max-height: 350px;" title="Configure the cross-platform app." />
+<figcaption class="figure-caption">Configure the cross-platform app.</figcaption>
+</figure>
+<ol start="6">
+<li>On Windows, the template will also create a UWP project. Sometimes, UWP requires you choose a minimum and target platform version. For this exercise, use the <strong>default</strong> selections.</li>
+</ol>
+<figure class="figure">
+<img src="./images/windows-sdk-picker.png" alt="If prompted, configuring the Universal Windows Platform target and minimum platform versions in Visual Studio" style="max-height: 350px;" title="Pick a Windows target version and minimum version" />
+<figcaption class="figure-caption">Pick a Windows target version and minimum version</figcaption>
+</figure>
+</ide>
+<ide name="xs">
+<p>Open Visual Studio for Mac and create a <strong>File &gt; New Solution</strong>. This will open the New Project wizard.</p>
+<div class="carousel-header">
+There are multiple steps to the wizard, use the chevrons <i class="fa fa-chevron-left" aria-hidden="true"></i> and <i class="fa fa-chevron-right" aria-hidden="true"></i> below to walk you through each step.
+</div>
+<div id="T4e5303b6c80c47ee9809ab2a90240640" class="carousel carousel-wizard slide" data-ride="carousel" data-wrap="false" data-interval="false">
+<div class="carousel-controls">
+<a class="carousel-control-prev" href="#T4e5303b6c80c47ee9809ab2a90240640" data-slide="prev">
+<i class="fa fa-chevron-left" aria-hidden="true"></i>
+<span class="sr-only">Previous</span>
+</a><ol class="carousel-indicators">
+<li data-target="#T4e5303b6c80c47ee9809ab2a90240640" data-slide-to="0" class="active"></li>
+<li data-target="#T4e5303b6c80c47ee9809ab2a90240640" data-slide-to="1"></li>
+<li data-target="#T4e5303b6c80c47ee9809ab2a90240640" data-slide-to="2"></li>
+</ol>
+<a class="carousel-control-next" href="#T4e5303b6c80c47ee9809ab2a90240640" data-slide="next">
+<i class="fa fa-chevron-right" aria-hidden="true"></i>
+<span class="sr-only">Next</span></a>
+</div>
+<div class="carousel-inner" role="listbox">
+<div class="carousel-item active">
+<div class="carousel-caption d-block lab-block">
+<h3>
+Select the Xamarin.Forms Template
+</h3>
+<p>
+In the New Project wizard, select <strong>Multiplatform &gt; App &gt; Blanks Forms App</strong> and click <strong>Next</strong> to continue.
+</p>
+</div>
+<img class="d-block img-fluid" src="./images/new-project.png" alt="Select the Xamarin.Froms Template">
+</div>
+<div class="carousel-item">
+<div class="carousel-caption d-block lab-block">
+<h3>
+Configure the application
+</h3>
+<ol>
+<li>Name the application <strong>FirstApp</strong>.</li>
+<li>Leave the <strong>Organization identifier</strong> as the default value.</li>
+<li>Select <strong>Android</strong> and <strong>iOS</strong> for the Target Platforms.</li>
+<li>Select the <strong>Portable Class Library</strong> under <strong>Shared Code</strong>.</li>
+<li>Make sure the <strong>Use XAML for user interface files</strong> is unchecked, this will generate code-based UI.</li>
+<li>Click <strong>Next</strong>. </li>
+</ol>
+</div>
+<img class="d-block img-fluid" src="./images/first-app.png" alt="Name the application">
+</div>
+<div class="carousel-item">
+<div class="carousel-caption d-block lab-block">
+<h3>
+Create the application
+</h3>
+<p>
+Leave all options as their defaults on the final screen and click <strong>Create</strong> to create the application.
+</p>
+</div>
+<img class="d-block img-fluid" src="./images/create-app.png" alt="Create the App">
+</div>
+</div>
+</div>
+</ide>
+
+<hr>
+<h2>Enable developer mode for UWP</h2>
+<blockquote class="info-quote">Note: With Visual Studio for Mac, this step is not required.
+</blockquote>
+<p>If you haven't done so already, Windows will prompt you to enable developer mode. Developer mode will allow you to deploy and run your unsigned development UWP apps on your local Windows machine.</p>
+<figure class="figure">
+<img src="images/windows-developer-mode.png" alt="image" style="max-width:60%" />
+</figure>
+
+<hr>
+<h2>Examine the solution structure</h2>
+<p>Explore the Xamarin.Forms solution below; hover over each item to learn its purpose within a Xamarin.Forms app.</p>
+<ide name="vs">
+<div class="image-map-wrapper" style="max-width:389px">
+<img id="dynimg-2" src="./images/vs-explore-project.png" class="image-map" width="389" height="431" usemap="#map-dynimg-2" data-stroke-color="9932CC" data-captions='{"dcap3": ["Solution Node", "&lt;p&gt;The source code is organized within a single solution with multiple, related projects including a shared project and a project for each supported platform.&lt;/p&gt;"],"dcap4": ["Shared Code", "&lt;p&gt;This is the &lt;strong&gt;.NET Standard&lt;/strong&gt; class library, it will hold the majority of our source code. It is referenced by each platform-specific project.&lt;/p&gt;"],"dcap5": [".NET and NuGet References", "&lt;p&gt;This is the list of references used by the shared library. Notice that it includes a subset of the .NET libraries.&lt;/p&gt;"],"dcap6": ["Application definition", "&lt;p&gt;New Xamarin.Forms projects include a class that derives from the &lt;code&gt;Application&lt;/code&gt; class. This class is responsible for presenting the UI. When creating a project in Visual Studio, this file will be named &lt;strong&gt;App.xaml.cs&lt;/strong&gt;, nested under &lt;strong&gt;App.xaml&lt;/strong&gt; (&lt;strong&gt;App.cs&lt;/strong&gt; for older, non-XAML Visual Studio templates).&lt;/p&gt;"],"dcap7": ["Platform Projects", "&lt;p&gt;These are the platform-specific projects: one for each platform we are building an app for. These projects create the actual applications which you will deploy and each reference the shared code and the Xamarin.Forms NuGet package. Each one will call its own &lt;code&gt;Xamarin.Forms.Init&lt;/code&gt; method to create the initial app screen.&lt;/p&gt;"]}' data-tt-caption="tt-caption2" data-tt-caption-header="tt-caption-header2" data-tt-caption-text="tt-caption-text2" />
+<map name="map-dynimg-2">
+<area id="dcap3" data-name="dcap3" shape="circle" coords="605,174,40" href="#" />
+<area id="dcap4" data-name="dcap4" shape="circle" coords="344,225,40" href="#" />
+<area id="dcap5" data-name="dcap5" shape="circle" coords="94,414,40" href="#" />
+<area id="dcap6" data-name="dcap6" shape="circle" coords="346,542,40" href="#" />
+<area id="dcap7" data-name="dcap7" shape="circle" coords="355,652,40" href="#" />
+</map>
+</div>
+<div id="tt-caption2" class="popover" role="tooltip" style="position: absolute;left: 0;top: 0; display: none;">
+<div class="popover-arrow">
+</div>
+<h3 id="tt-caption-header2" class="popover-title" style="margin-top:0;">
+</h3>
+<div id="tt-caption-text2" class="popover-content">
+</div>
+</div>
+</ide>
+<ide name="xs">
+<div class="image-map-wrapper" style="max-width:477px">
+<img id="dynimg-8" src="./images/xs-explore-project.png" class="image-map" width="477" height="651" usemap="#map-dynimg-8" data-stroke-color="9932CC" data-captions='{"dcap9": ["Solution Node", "&lt;p&gt;The source code is organized within a single solution with multiple, related projects including a shared project and a project for each supported platform.&lt;/p&gt;"],"dcap10": ["Shared Code", "&lt;p&gt;This is the &lt;strong&gt;Portable Class Library&lt;/strong&gt; which will hold the majority of our source code will go here. It is referenced by each platform-specific project.&lt;/p&gt;"],"dcap11": [".NET References", "&lt;p&gt;This is the list of references used by the Portable Class Libary. Notice that it includes a subset of the .NET libraries.&lt;/p&gt;"],"dcap12": ["NuGet Packages", "&lt;p&gt;The Packages folder shows NuGet packages that have been added to the project. The Xamarin.Forms NuGet package is added automatically when creating a new project using the Xamarin.Forms templates.&lt;/p&gt;"],"dcap13": ["Application definition", "&lt;p&gt;New Xamarin.Forms projects include a class named &lt;strong&gt;App&lt;/strong&gt; that derives from the &lt;code&gt;Application&lt;/code&gt; class. This class is responsible for presenting the UI. If you checked &lt;strong&gt;Use XAML for user interface files&lt;/strong&gt; when creating the project it will create an &lt;strong&gt;App.xaml.cs&lt;/strong&gt; file and an associated &lt;strong&gt;XAML&lt;/strong&gt; file named &lt;strong&gt;App.xaml.cs&lt;/strong&gt;. If it was unchecked the App class file name will be the same as your project name: &lt;strong&gt;FirstApp.cs&lt;/strong&gt;, for example.&lt;/p&gt;"],"dcap14": ["ContentPage definition", "&lt;p&gt;If you checked &lt;strong&gt;Use XAML for user interface files&lt;/strong&gt; when creating the project, a &lt;code&gt;ContentPage&lt;/code&gt; will be created with an associated &lt;strong&gt;XAML&lt;/strong&gt; file with the same name as your application. By default, the &lt;strong&gt;App&lt;/strong&gt; class will display this &lt;code&gt;ContentPage&lt;/code&gt;.&lt;/p&gt;"],"dcap15": ["Platform Projects", "&lt;p&gt;These are the platform-specific projects, one for iOS and one for Android. These generate the application binaries that run on each platform. Each of these projects references the shared code and the Xamarin.Forms NuGet package. Each one will call its own &lt;code&gt;Xamarin.Forms.Init&lt;/code&gt; method to create the initial app screen.&lt;/p&gt;"]}' data-tt-caption="tt-caption8" data-tt-caption-header="tt-caption-header8" data-tt-caption-text="tt-caption-text8" />
+<map name="map-dynimg-8">
+<area id="dcap9" data-name="dcap9" shape="rect" coords="183,49,227,93" href="#" />
+<area id="dcap10" data-name="dcap10" shape="rect" coords="206,88,250,132" href="#" />
+<area id="dcap11" data-name="dcap11" shape="rect" coords="263,128,307,172" href="#" />
+<area id="dcap12" data-name="dcap12" shape="rect" coords="240,248,284,292" href="#" />
+<area id="dcap13" data-name="dcap13" shape="rect" coords="245,366,289,410" href="#" />
+<area id="dcap14" data-name="dcap14" shape="rect" coords="369,447,413,491" href="#" />
+<area id="dcap15" data-name="dcap15" shape="rect" coords="292,587,336,631" href="#" />
+</map>
+</div>
+<div id="tt-caption8" class="popover" role="tooltip" style="position: absolute;left: 0;top: 0; display: none;">
+<div class="popover-arrow">
+</div>
+<h3 id="tt-caption-header8" class="popover-title" style="margin-top:0;">
+</h3>
+<div id="tt-caption-text8" class="popover-content">
+</div>
+</div>
+</ide>
+
+<hr>
+<h2>Replace the default XAML-based UI</h2>
+<p>The Xamarin.Forms templates may create a default UI in XAML.
+For the purposes of this class, we're going to define our UI programmatically.</p>
+<ol>
+<li>If you have an <strong>App.xaml</strong> file, follow along to switch it to a programmatically generated UI. If not, you can skip ahead to the next section.</li>
+<li>
+Open the <code>Application</code> class in the shared <strong>App.xaml.cs</strong>.
+Inside <strong>App.xaml.cs</strong> swap out the existing <code>App()</code> constructor for this code-based UI constructor.
+</li>
+</ol>
+<pre class="prettyprint"><code>public App()
+{
+    // The root page of your application
+    MainPage = new ContentPage {
+        Content = new StackLayout {
+            VerticalOptions = LayoutOptions.Center,
+            Children = {
+                new Label {
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    Text = &quot;Welcome to Xamarin Forms!&quot;
+                }
+            }
+        }
+    };
+}
+</code></pre>
+
+<p>This will display a <code>Label</code> within a <code>StackLayout</code> as the UI for <code>MainPage</code>. The <code>Label</code> is defined with its <code>Text</code> property set to <strong>&quot;Welcome to Xamarin.Forms!&quot;</strong>. This <code>Label</code> and its contents will be visible when the application is running.</p>
+<blockquote>
+Optionally, you can delete <strong>MainPage.xaml</strong> and <strong>MainPage.xaml.cs</strong> from your project. This isn't required, but these files won't be needed.
+</blockquote>
+
+<hr>
+<h2>Select a startup project</h2>
+<ol>
+<li>Select the project you want run or debug in the solution explorer, right-click on the project title and click <strong>Set as Startup Project</strong>. Remember, you cannot execute the shared compiled project directly, you must choose one of the platform specific projects.</li>
+</ol>
+<ide name="vs">
+<img src="images/vs-select-startup.png" alt="image" />
+</ide>
+<ide name="xs">
+<img src="images/xs-select-startup.png" alt="image" />
+</ide>
+<br/>
+<blockquote>
+Depending on which platform you run on, the build type (Debug+iPhoneSimulator, Debug+ARM, Debug+AnyCPU, etc.) may restrict the places you can deploy to, and even the projects which are built. If you have trouble setting a project as active, or you get deployment errors, check the build type and the solution configuration to see which projects are being built. It can be very helpful to setup a common Debug build type which builds all platforms for how you are debugging - this is not present in the generated templates. See <a href="https://xmonodev.wordpress.com/2013/12/02/setting-the-active-configuration-in-xamarin-studio/" target="_blank">this blog post</a> for an example of this.
+</blockquote>
+
+<hr>
+<h2>Run the application</h2>
+<ol>
+<li>
+Run the application on a device or in a simulator / emulator by clicking the Play icon <i class="fa fa-play" aria-hidden="true"></i> in the toolbar. 
+This will build, deploy, and run the application on the selected device or emulator.
+</li>
+</ol>
+<p>It should display a single piece of text, centered on the screen as shown here: </p>
+<div class="row">
+<div class="col-md-6">
+<img src="./images/firstapp-ios.png" alt="Screenshot of the FirstApp project running on an iOS Simulator" title="FirstApp running on iOS" />
+</div>
+<div class="col-md-6">
+<img src="./images/firstapp-droid.png" alt="Screenshot of the FirstApp project running on an Android emulator" title="FirstApp running on Android" />
+</div>
+</div>
+<blockquote>
+If you have trouble setting a project as active, or you get deployment errors; check the build type <em>and</em> the solution configuration to see which projects are being built. It can be very helpful to setup a common Debug build type which builds <em>all</em> platforms for how you are debugging - this is not present in the generated templates. See <a href="https://xmonodev.wordpress.com/2013/12/02/setting-the-active-configuration-in-xamarin-studio/" target="_blank">this blog post</a> for an example of this.
+</blockquote>
+
+<hr>
+<h2>Explore the architecture</h2>
+<ol>
+<li>
+<p>Open the shared application class implementation and add a Button to the UI - here's an example to guide you:</p>
+<pre class="prettyprint-collapse"><code>public App()
+{
+    // The root page of your application
+    var layout = new StackLayout
+    {
+        VerticalOptions = LayoutOptions.Center,
+        Children = {
+            new Label {
+                HorizontalTextAlignment = TextAlignment.Center,
+                Text = &quot;Welcome to Xamarin Forms!&quot;
+            }
+        }
+    };
+
+    MainPage = new ContentPage {
+        Content = layout
+    };
+
+    Button button = new Button {
+        Text = &quot;Click Me&quot;
+    };
+
+    button.Clicked += async (s, e) =&gt; {
+        await MainPage.DisplayAlert(&quot;Alert&quot;, &quot;You clicked me&quot;, &quot;OK&quot;);
+    };
+
+    layout.Children.Add(button);
+}
+</code></pre>
+
+</li>
+<li>
+<strong>Run</strong> the application - you should now see a button in the UI, just under the label. 
+</li>
+<li><strong>Tap</strong> the button to generate a UI message.</li>
+<li>Place a <strong>breakpoint</strong> in the button clicked handler and tap the button again. While the debugger is stopped, examine the call stack. For Android, at the bottom of the call stack you should find native handlers, they will clearly come from java.widgets, in UWP, you will see a XAML button and in iOS you will see some native iOS code methods. This is bubbled up through a view renderer that translates the platform-agnostic <code>Button</code> type we created into a native, platform-specific button.</li>
+</ol>
+
+<hr>
+<h2>Exercise summary</h2>
+<p>In this exercise, you have created your first Xamarin.Forms application and run it on a simulator/emulator or device!</p>
+<p>You can view the completed solution in the <strong>Exercise 1 &gt; Completed</strong> folder of your copy of the cloned or downloaded <a href="https://github.com/XamarinUniversity/XAM120/">course materials</a>.</p>
+
+
+        <div class="align-right">
+            <a href="../StartHere.html">Go Back</a>
+        </div>
+
+    </section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/jquery.imagemapster.min.js"></script>
+    <script src="./res/js/imagemap.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2018 Xamarin Inc., Microsoft. All rights reserved.<br><a target="_blank" href="http://university.xamarin.com">Visit Xamarin University for more classes and content</a></footer>
+
+</body>
+</html>

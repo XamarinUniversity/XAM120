@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 3: Adding support for dialing the phone</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>XAM120 Intro to Xamarin.Forms</header>
+
+    <section id="main">
+        <h2>Exercise 3: Adding support for dialing the phone</h2>
+<p>The goal of this exercise is to add platform-specific behavior into our Phoneword application to display an alert and let the user dial the phone. </p>
+<p>This exercise is a continuation of the previous exercise. You can use your existing solution or begin from the prior <strong>Exercise 2 &gt; Completed</strong> solution in your copy of the cloned or downloaded <a href="https://github.com/XamarinUniversity/XAM120/">course materials</a>.</p>
+<p>There are also several assets you will need to add to your projects during the exercise which are contained in the <strong>Exercise 3 &gt; Assets</strong> folder.</p>
+<blockquote class="info-quote">To complete the exercise, you will need <a href="https://www.visualstudio.com/" target="_blank">Visual Studio for Windows or macOS</a> with the <a href="https://visualstudio.microsoft.com/xamarin/" target="_blank">Xamarin development tools</a> installed. You will also need either an emulator/simulator or a device to run the exercise on. Please see the <a href="https://docs.microsoft.com/xamarin/cross-platform/get-started/installation/" target="_blank">setup page</a> if you need help installing the Xamarin development environment.
+</blockquote>
+
+<hr>
+<h2>Add an event handler to the call button</h2>
+<ol>
+<li>
+Open <strong>MainPage.cs</strong> in the <strong>Phoneword</strong> library and locate the constructor.
+</li>
+<li>
+Subscribe a handler to the <code>Clicked</code> event of the <strong>Call</strong> <code>Button</code>; this should be added after the current <code>translateButton.Clicked</code> handler.
+</li>
+<li>
+In the completed project, a method named <code>OnCall</code> is used to subscribe to <code>Clicked</code>. This method must accept an <code>object</code> and an <code>EventArgs</code>.
+</li>
+</ol>
+<pre class="prettyprint-collapse"><code>public MainPage()
+{
+   translateButton.Clicked += OnTranslate;
+   <mark>callButton.Clicked += OnCall;</mark>
+   this.Content = panel;
+}
+
+...
+
+<mark>void OnCall(object sender, System.EventArgs e)</mark>
+<mark>{</mark>
+
+<mark>}</mark>
+</code></pre>
+
+
+<hr>
+<h2>Display an alert</h2>
+<p>The following steps will add the logic to the <code>OnCall</code> method.</p>
+<ol>
+<li>
+Prompt the user using <a href="https://developer.xamarin.com/api/member/Xamarin.Forms.Page.DisplayAlert/p/System.String/System.String/System.String/System.String" target="_blank"><code>Page.DisplayAlert</code></a> to ask if they'd like to dial the number.
+</li>
+<li>
+The <code>DisplayAlert</code> method returns a <code>Task</code>; add the <code>async</code> keyword to <strong>OnCall</strong> and <code>await</code> the call to <code>DisplayAlert</code>. <code>DisplayAlert</code> takes a <strong>Title</strong>, <strong>Message</strong> and two strings used for the <strong>Accept</strong> and <strong>Cancel</strong> button text. It returns a boolean indicating whether the <strong>Accept</strong> Button was pressed to dismiss the dialog.
+</li>
+</ol>
+<p>Use the following parameters:</p>
+<table class="table table-striped">
+<thead>
+<tr>
+	<th>Property</th>
+	<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td><strong>Title</strong></td>
+	<td>&quot;Dial a Number&quot;</td>
+</tr>
+<tr>
+	<td><strong>Message</strong></td>
+	<td>&quot;Would you like to call xxxx&quot;, using the translated number.</td>
+</tr>
+<tr>
+	<td><strong>&quot;Yes&quot;</strong> and <strong>&quot;No&quot;</strong></td>
+	<td>For the <strong>Accept</strong> and <strong>Cancel</strong> buttons.</td>
+</tr>
+</tbody>
+</table>
+<pre class="prettyprint-collapse"><code><mark>async</mark> void OnCall(object sender, System.EventArgs e)
+{
+    <mark>if (await this.DisplayAlert(</mark>
+    <mark>    &quot;Dial a Number&quot;,</mark>
+    <mark>    &quot;Would you like to call &quot; + translatedNumber + &quot;?&quot;,</mark>
+    <mark>    &quot;Yes&quot;,</mark>
+    <mark>    &quot;No&quot;))</mark>
+    <mark>{</mark>
+    <mark>    // TODO: dial the phone</mark>
+    <mark>}</mark>
+}
+</code></pre>
+
+
+<hr>
+<h2>Run the application</h2>
+<ol>
+<li>Build and run on any platform. It should display the alert and allow you to dismiss it with either a <strong>Yes</strong> or <strong>No</strong> response.</li>
+</ol>
+<figure class="figure">
+<img src="./images/alert.png" alt="Dial alert message" />
+</figure>
+
+<hr>
+<h2>Create an abstraction</h2>
+<p>Next, let's create the abstraction for dialing the phone.</p>
+<ol>
+<li>Create a public interface named <code>IDialer</code> in the shared library.</li>
+<li>Define a single method named <code>DialAsync</code> that accepts the phone number as a <code>string</code> and returns a <code>bool</code> to indicate whether the call was successful.</li>
+<li>This will be an async method; wrap the return value in a <code>Task</code>.</li>
+</ol>
+<pre class="prettyprint-collapse"><code>using System.Threading.Tasks;
+...
+
+public interface IDialer
+{
+    Task&lt;bool&gt; DialAsync(string number);
+}
+</code></pre>
+
+
+<hr>
+<h2>Add the IDialer implementations</h2>
+<p>There are pre-supplied concrete implementations of the <code>IDialer</code> interface for each platform provided in the <strong>Exercise 3 &gt; Assets</strong> folder of your copy of the cloned or downloaded <a href="https://github.com/XamarinUniversity/XAM120/">course materials</a>.</p>
+<p>Copy each one into the appropriate platform-specific project.</p>
+<table class="table table-striped">
+<thead>
+<tr>
+	<th>Platform</th>
+	<th>File</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+	<td>iOS</td>
+	<td><strong>PhoneDialer.iOS.cs</strong></td>
+</tr>
+<tr>
+	<td>Android</td>
+	<td><strong>PhoneDialer.Droid.cs</strong></td>
+</tr>
+<tr>
+	<td>Universal Windows Platform</td>
+	<td><strong>PhoneDialer.UWP.cs</strong></td>
+</tr>
+</tbody>
+</table>
+
+<hr>
+<h2>Register IDialer with the dependency service</h2>
+<ol>
+<li>
+Verify that your interface declaration matches the implementation in the provided files and that each of them implements the <code>IDialer</code> interface.
+</li>
+<li>
+In each dialer implementation source file, add an assembly-level <code>[assembly:Dependency]</code> attribute to register the implementation. These can be placed into the same source file as the implementation of each dialer, but must be placed <em>outside</em> any namespace declaration. You may have to add a <code>using</code> statement for the app's namespace to be able to identify the types.
+</li>
+</ol>
+<pre class="prettyprint-collapse"><code>...
+<mark>using Phoneword.iOS;</mark>
+
+// This same attribute definition needs to go in each platform-specific file
+<mark>[assembly: Dependency(typeof(PhoneDialer))]</mark>
+
+namespace Phoneword.iOS
+{
+    public class PhoneDialer : IDialer
+    {
+        ...
+    }
+}
+</code></pre>
+
+
+<hr>
+<h2>Add permissions to the Android project</h2>
+<ide name="xs">
+<ol>
+<li>Open the <strong>Project Options</strong> for the Android project.</li>
+<li>Click on <strong>Build &gt; Android Application</strong>.</li>
+<li>In the <strong>Required permissions</strong> section, check the box next to the <code>CallPhone</code> permission (see below). </li>
+<li>If the other fields are not filled out (depending on your environment, the template might leave them blank), then supply valid values using the below screen shot as an example.</li>
+</ol>
+<figure class="figure">
+<img src="./images/Android-CallPhonePermissionXS.png" alt="Android permissions" />
+</figure>
+</ide>
+<ide name="vs">
+<ol>
+<li>Open the <strong>Properties</strong> for the Android project.</li>
+<li>Click on <strong>Android Manifest</strong>.</li>
+<li>In the <strong>Required permissions</strong> section, check the box next to the <code>CALL_PHONE</code> permission (see below).</li>
+</ol>
+<figure class="figure">
+<img src="./images/Android-CallPhonePermissionVS.png" alt="Android permissions" />
+</figure>
+</ide>
+
+<hr>
+<h2>Add permission helper NuGet package</h2>
+<p>On modern Android versions, permission to make a call must be requested at runtime. To simplify this process, we will be using James Montemagno's Permissions Plugin NuGet package to abstract away as much of the Android-only implementation details as we can.</p>
+<p>Add a NuGet reference to the <strong>Plugin.Permissions</strong> package to each platform-specific projects and the shared .NET Standard project.</p>
+<ide name="vs">
+<ol>
+<li>Right-click on the Phoneword solution in Solution Explorer and choose <strong>Manage NuGet Packages for Solution...</strong>.</li>
+<li>Switch to the <strong>Browse</strong> tab and search for &quot;Plugin.Permissions&quot;.</li>
+<li>Check all the projects on the right-hand list to install the plugin everywhere in our solution.</li>
+</ol>
+</ide>
+<ide name="xs">
+<ol>
+<li>Right-click on the shared Phoneword project in the Solution pad and choose <strong>Add</strong> &gt; <strong>Add NuGet Packages...</strong>.</li>
+<li>From the search bar, find the &quot;Plugin.Permissions&quot; package.</li>
+<li>Select the <strong>Plugin.Permissions</strong> package and click <strong>Add Package</strong>.</li>
+<li>Repeat the above steps to install the permissions plugin on the <strong>Phoneword.Droid</strong> and <strong>Phoneword.iOS</strong> projects as well.</li>
+</ol>
+</ide>
+<p>With the permissions NuGet package in place, we need to connect a few pieces together in the Android project.</p>
+<p>The permissions package uses another NuGet package to get the current Android activity at any given time. To make sure it knows the current activity, we must initialize it in our <strong>MainActivity</strong> class.</p>
+<ol>
+<li>Within the Android project, open the <strong>MainActivity.cs</strong> file.</li>
+<li>Add the following line to the <strong>OnCreate</strong> method.</li>
+</ol>
+<pre class="prettyprint"><code><mark>using Plugin.CurrentActivity;</mark>
+...
+protected override void OnCreate(Bundle bundle) {
+    ...
+    base.OnCreate(bundle);
+
+    <mark>CrossCurrentActivity.Current.Init(this, bundle);</mark>
+    ...
+}
+</code></pre>
+
+<p>This code will connect the current activity plugin to the appropriate lifecycle events in Android to always be aware of the current activity.</p>
+<p>To enable the permission system in Android, one last piece of code is required in our Android app's Xamarin.Forms activity.</p>
+<ol>
+<li>Within the Android project, open the <strong>MainActivity.cs</strong> file.</li>
+<li>Add the following <strong>OnRequestPermissionsResult</strong> method to your MainActivity class.</li>
+</ol>
+<pre class="prettyprint"><code>using Plugin.Permissions;
+...
+public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+{
+    PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+    base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+}
+</code></pre>
+
+<p>When Android presents a permission request to the user at runtime, this method is the callback the system uses to handle the user's response. Instead of handling the request here directly, though, we pass on any user response details to the permissions plugin.</p>
+
+<hr>
+<h2>Add permissions to the UWP project</h2>
+<ide name="xs">
+If you are working in Visual Studio for Mac, your Phoneword solution won't have a UWP project. You can continue to the next step.
+</ide>
+<ide name="vs">
+<p>If you are testing the UWP application, then you will need to use the following steps.</p>
+<ol>
+<li>Open the <strong>Package.appxmanifest</strong> file in the UWP project.</li>
+<li>Click on the <strong>Capabilities</strong> tab.</li>
+<li>Check the box next to <strong>Phone Call</strong> to allow you to use the dialer without UI intervention. You can actually use the feature without this capability, this simply lets you do it without a UI prompt. </li>
+</ol>
+<figure class="figure">
+<img src="./images/uwp-manifest-permissions.png" alt="UWP permissions" />
+</figure>
+</ide>
+
+<hr>
+<h2>Add a reference to the UWP Mobile Extensions library</h2>
+<ide name="xs">
+If you are working in Visual Studio for Mac, your Phoneword project won't have a UWP project. You can continue to the next step.
+</ide>
+<ide name="vs">
+<p>To use the <code>PhoneCallManager</code> APIs on UWP, we need to add a reference to an extension.</p>
+<ol>
+<li>Right-click your UWP project's References and choose <strong>Add Reference…</strong>.</li>
+<li>Select the <strong>Universal Windows</strong> &gt; <strong>Extensions</strong> section from the left navigation and check the <strong>Windows Mobile Extensions for the UWP</strong> reference.</li>
+<li>Click <strong>OK</strong> to add the reference.</li>
+</ol>
+<figure class="figure">
+<img src="./images/uwp-extensions-reference.png" alt="Add the Windows Mobile Extensions reference to your UWP app" />
+</figure>
+</ide>
+
+<hr>
+<h2>Use the IDialer abstraction</h2>
+<p>Finally, let's invoke our phone dialer logic from the Call Button.</p>
+<ol>
+<li>
+If the user responds affirmatively, then lookup the phone dialer using the <a href="https://developer.xamarin.com/api/type/Xamarin.Forms.DependencyService/" target="_blank"><code>DependencyService</code></a>. The service provides a <code>static</code> method named <code>Get&lt;T&gt;</code> that will locate and then provide access to a platform-specific implementation of an interface. 
+In our case, we already registered our platform-specific implementation in a previous step using the <a href="https://developer.xamarin.com/api/type/Xamarin.Forms.DependencyAttribute" target="_blank"><code>DependencyAttribute</code></a>. Here we will need to use the <code>Get&lt;T&gt;</code> method to retrieve the implementation of the <code>IDialer</code> interface for our current platform.
+</li>
+<li>
+Use the retrieved concrete implementation of <code>IDialer</code> to dial the phone using the <code>DialAsync</code> method.
+</li>
+</ol>
+<pre class="prettyprint-collapse"><code>async void OnCall(object sender, System.EventArgs e)
+{
+    if (await this.DisplayAlert(
+        &quot;Dial a Number&quot;,
+        &quot;Would you like to call &quot; + translatedNumber + &quot;?&quot;,
+        &quot;Yes&quot;,
+        &quot;No&quot;)) 
+    {
+        <mark>var dialer = DependencyService.Get&lt;IDialer&gt;();</mark>
+        <mark>if (dialer != null)</mark>
+        <mark>    await dialer.DialAsync(translatedNumber);</mark>
+    }
+}
+</code></pre>
+
+
+<hr>
+<h2>Run the application</h2>
+<ol>
+<li>Run the application using a platform of your choice. Be sure to try both the translate and dial buttons.</li>
+<li>If you have time, run the app on each supported platform and try stepping through the program to see it jump into the platform-specific code. For some extra fun, try running this on a real device!</li>
+</ol>
+<blockquote>
+Many emulators and simulators will not properly simulate dialing the phone - however the Android SDK Virtual Devices are an exception. On other simulated platforms, your code may throw an exception when trying to dial the phone. If this happens, you can comment out the code to dial the phone, or wrap it in a <code>try</code> / <code>catch</code> statement.
+</blockquote>
+<figure class="figure">
+<img src="./images/complete.png" alt="Completed Phoneword app" />
+</figure>
+
+<hr>
+<h2>Exercise summary</h2>
+<p>In this final exercise, you have added support for dialing the phone using platform-specific APIs available in iOS, Android, and Windows.</p>
+<p>You can view the completed solution in the <strong>Exercise 3 &gt; Completed</strong> folder of your copy of the cloned or downloaded <a href="https://github.com/XamarinUniversity/XAM120/">course materials</a>.</p>
+
+
+        <div class="align-right">
+            <a href="../StartHere.html">Go Back</a>
+        </div>
+
+    </section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/jquery.imagemapster.min.js"></script>
+    <script src="./res/js/imagemap.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2018 Xamarin Inc., Microsoft. All rights reserved.<br><a target="_blank" href="http://university.xamarin.com">Visit Xamarin University for more classes and content</a></footer>
+
+</body>
+</html>
